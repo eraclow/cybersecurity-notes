@@ -6,39 +6,39 @@
  - Kısaca yazdığınız payloadları web uygulamasını kullanarak database'de kendi SQL sorgunuzu çalıştırabilmenizdir.
  - Önce SQL'i anlamamız gerekir.Örnek temel MySQL sorguları:
   
-  ```sql
+  ```
   SELECT 1; 
   Sonuç 1 döner.
   ```
-  ```sql
+  ```
   SELECT 2-1;
   Veritabanı çıkarma işlemini yapar ve sonuç yine 1 döner.
   ```
-  ```sql
+  ```
   SELECT '2-1';
   Veritabanı string olarak algılar ve sonucu 2-1 şeklinde geri verir.
   ```
-  ```sql
+  ```
   SELECT '2' - '1';
   Veritabanı değeri integer türüne dönüştürerek çıkarma işlemini gerçekleştirir. Sonuç 1’dir.
   ```
-  ```sql
+  ```
   SELECT '2' - 'a';
   DB integer tipine cast edemeyeceği için sonuç 2a'dır.
   ```
-  ```sql
+  ```
   SELECT 'b' + 'a';
   Sonuç 0'dır.
   ```
-  ```sql
+  ```
   SELECT '2' '1';
   Sonuç 21'dir.Veritabanı string concatenation yapar.
   ```
-  ```sql
+  ```
   SELECT '2' '1' 'a' - 1;
   Sonuç 20'dir.a - 1 = 0 - 1 = -1.21-1=20
   ```
-  ```sql
+  ```
   SELECT 2^1;
   Sonuç 3'tür.Bu bir XOR opperand'dır.
   ```
@@ -79,7 +79,7 @@
 
   - Örnek olarak vereceğim query ile database'deki tablo isimlerini öğrenebiliriz:
 
-  ```sql
+  ```
   UNION SELECT table_name,2,3,4,5 FROM information_schema.tables WHERE table_schema=database()
 
   Genel olarak yazılması gereken payload'ları vermeyeceğim kendiniz rahatlıkla internet üzerinden bulabilirsiniz.
