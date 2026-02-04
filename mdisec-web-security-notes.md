@@ -50,7 +50,7 @@
   
   ## UNION SELECT SQLi
 
-  ## Örnek Olarak Alacağımız Kod ve URL
+  ## Örnek Olarak Kullanacağımız Kod ve URL
 
   ```
   www.x.com/?id=1
@@ -77,7 +77,7 @@
 
   ## UNION SELECT Kullanımı
 
-  - UNION operator'ünü kullanarak kendi sorgumuzu çalıştırmak için query'nin sonucunun column sayısı bizden önceki ve bizim yazacağımız query ile aynı olması lazım.Bunu da ya ' ORDER BY 1-- ya da UNION SELECT 1,2,3,4,5 gibi tekniklerle bulabiliriz.
+  - UNION operator'ünü kullanarak kendi sorgumuzu çalıştırmak için query'deki column sayısının bizden önceki ve bizim yazacağımız query ile aynı olması lazım.Bunu da ya ' ORDER BY 1-- ya da UNION SELECT 1,2,3,4,5 gibi tekniklerle bulabiliriz.
 
   - UNION SELECT 1,2,3,4,5 tekniğini kullanarak kendi referans noktamıza döndüğümüz zaman kolon sayısını bulmuş oluyoruz.Kullandığımız UNION SELECT yöntemiyle kolon sayısını bulduktan sonra yazdığımız 1,2,3,4,5 column kısmındaki hangi değeri bir string ile değiştirirsek ekrana output verir onu bulmamız lazım.Bu sayede o kısımı kullanarak helper function'lar ile veya kendi yazacağımız subquery'ler ile veri çıkartmaya başlayabiliriz.Örneğimizde 1 değerindeki alana yazınca string output almış olalım.
 
@@ -101,7 +101,7 @@
 
   ## Error-Based SQL Injection Nasıl Çalışır?
 
-    ## Injection noktası (Girdi noktası)
+  ## Injection noktası (Girdi noktası)
 
     Saldırgan, kullanıcı girdisinin doğrudan SQL sorgularına eklendiği savunmasız bir alan tespit eder.
 
