@@ -65,9 +65,17 @@
     print("Haber Yok")
   ```
 
+  ## SQL Injection Tespit
+
   - Kendimize öncelikle bir referans noktası seçmemiz gerekiyor.Bu senaryoda bizim referans noktamız www.x.com/?id=1.
 
   - ?id=1 query kısmını ?id=2-1 ile değiştirdikten sonra fark ediyoruz ki kendi referans noktamıza geri döndük ve aslında arka tarafta database'e bir çıkarma işlemi yaptırdık.
+
+  - Sadece çıkarma işlemi yapmak zorunda değiliz örnek olarak referans noktası aldığımız URL'deki query ?id=3 olsun.Yukarıda bahsettiğim gibi 2^1 3'e eşit olduğu için bu şekilde de varlığını tespit edebiliriz.
+
+  - Arka tarafta şu şekil bir query çalışıyor olabilir SELECT * FROM haberler WHERE id= ' " + id + " ' ".Bu senaryoda 2-1 bir işe yaramayacaktır çünkü input tırnak içine alınıyor.Bu senaryoda ise ?id=1' AND '1'='1 yazarak yine referans noktamıza dönebiliriz.Bu payload sorgunun tamamını TRUE yaparak filtreyi bypass eder.Query'nin devamında başka sorgular da çalışıyor olabilir bu yüzden sonuna # ya da -- ekleyerek yazdığımız kısımdan sonrasını commentout edebiliriz.
+
+  ## UNION SELECT Kullanımı
 
   - UNION operator'ünü kullanarak kendi sorgumuzu çalıştırmak için query'nin sonucunun column sayısı bizden önceki ve bizim yazacağımız query ile aynı olması lazım.Bunu da ya ' ORDER BY 1-- ya da UNION SELECT 1,2,3,4,5 gibi tekniklerle bulabiliriz.
 
@@ -84,6 +92,47 @@
 
   Genel olarak yazılması gereken payload'ları vermeyeceğim kendiniz rahatlıkla internet üzerinden bulabilirsiniz.
   ```
+
+  ## Error-Based SQLi
+
+  Error-based SQL injection, saldırganın bir web uygulamasındaki giriş alanlarına zararlı SQL ifadeleri enjekte etmesi sonucu uygulamanın SQL hataları üretmesine neden olan bir güvenlik açığı ve saldırı türüdür.
+
+  Bu hatalar, veritabanının yapısı, tabloları, sütunları veya yapılandırması hakkında hassas bilgilerin açığa çıkmasına sebep olabilir.
+
+  ## Error-Based SQL Injection Nasıl Çalışır?
+
+    ## Injection noktası (Girdi noktası)
+
+    Saldırgan, kullanıcı girdisinin doğrudan SQL sorgularına eklendiği savunmasız bir alan tespit eder.
+
+     Örneğin:
+
+      - Arama kutusu
+
+      - Giriş (login) formu
+
+      - Filtre parametreleri
+
+      - URL parametreleri
+
+    Bu ifadeler, uygulama tarafından çalıştırıldığında kasıtlı olarak SQL sözdizimi (syntax) hatalarına yol açacak şekilde tasarlanmıştır.
+
+    Bu alanlar yeterince filtrelenmezse SQL injection için uygun hedef haline gelir. 
+  
+  
+  - Error-Based SQLi ile veri çekmek için bazı helper function'lar kullanabiliriz.Örnek olarak ExtractValue() üzerinden yürüyelim.Bu fonksiyon parametre olarak xml alıp parse ederek belirttiğin filtreye göre değer döner.Örnek normal kullanım:
+
+    ```sql
+     ExtractValue(@xml, '//b[$@i]')
+    ```
+
+  - Önceki inject ettiğimiz URL üzerinden devam edebiliriz.WWW.x.com/?id=ExtractValue(rand(), concat(1,'Mehmet')) yazdığımızda XPATH syntax error: 'Mehmet' şeklinde bir hata alıyoruz.Yazdığımız string hatanın içerisinde geri döndü.Bu sayede subquery yazabiliriz.
+  - Örnek payload:
+     ```sql
+     SELECT ExtractValue(rand(),concat(1,(SELECT database())));
+     ```
+  - Burada rand() fonksiyonunu kullanmamızın sebebi hata ürettirip kendi yazdığımız subquery'nin sonucunu ekrana basmak.
+
   
     
   
