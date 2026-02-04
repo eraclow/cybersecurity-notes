@@ -44,7 +44,7 @@
   ```
 
   ## MySQL Davranış Örneği
-  Test adında bir DB oluşturup içine USERS diye bir tablo oluşturabiliriz ve column isimlerini ise isim,soyisim şeklinde ayarlayıp isim kısmına 'Mehmet' ve 'Mehmet  ' şeklinde eklemeler yapabiliriz.Mehmet kullanıcısını bul getir şeklinde bir query yazarsak sonunda boşluk olanlar dahil hepsi gelmektedir.DB sonunu trim'liyor.Bize yararı şu: Eğer 'admin  ' şeklinde bir kullanıcı oluşturup bize kullanıcı adı admin olanların parolasını getir dersek tüm admin isimli kullanıcıların verisi gelir.Exact Match açık olursa bu durum engellenir.
+  Test adında bir DB oluşturup içine USERS diye bir tablo oluşturabiliriz ve column isimlerini ise isim,soyisim şeklinde ayarlayıp isim kısmına 'Mehmet' ve 'Mehmet     ' şeklinde eklemeler yapabiliriz.Mehmet kullanıcısını bul getir şeklinde bir query yazarsak sonunda boşluk olanlar dahil hepsi gelmektedir.DB sonunu trim'liyor.Bize yararı şu: Eğer 'admin     ' şeklinde bir kullanıcı oluşturup bize kullanıcı adı admin olanların parolasını getir dersek tüm admin isimli kullanıcıların verisi gelir.Exact Match açık olursa bu durum engellenir.
 
   ## Uygulama Kısmı
   
