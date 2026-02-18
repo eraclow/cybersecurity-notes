@@ -12,13 +12,13 @@ HTTP (HyperText Transfer Protocol), modern internetin temel taşıdır. En önem
 
  - Çözüm: HTTP Header yapısına eklenen Cookie mekanizması.
 
-### Cookie ve Session Mekanizması
+## Cookie ve Session Mekanizması
 
-## Cookie Nedir?
+### Cookie Nedir?
 
 Sunucu tarafından Set-Cookie header'ı ile tarayıcıya gönderilen küçük veri parçalarıdır. Tarayıcı bu veriyi yerel veri tabanında saklar ve ilgili domain'e yapılan sonraki tüm isteklerde otomatik olarak header'a ekler.
 
-## Session (Oturum) Yönetimi
+### Session (Oturum) Yönetimi
 
 Session, sunucu tarafında kullanıcıya ait verilerin tutulduğu alandır. Yaygın tutulma yöntemleri:
 
@@ -31,7 +31,7 @@ Session, sunucu tarafında kullanıcıya ait verilerin tutulduğu alandır. Yayg
 - Client-Side Session: Sunucu yükünü azaltmak için session verisi doğrudan cookie içine yazılır.
   
   
-## Client-Side Session & Güvenlik
+### Client-Side Session & Güvenlik
 
 Veri istemcide tutulduğu için kullanıcı bunu değiştirebilir. Bunu engellemek için:
 
@@ -41,15 +41,15 @@ Veri istemcide tutulduğu için kullanıcı bunu değiştirebilir. Bunu engellem
 
 - Encoding: Veri genellikle okunabilirliği sağlamak için Base64 ile encode edilir (Bu bir şifreleme değildir!).
 
-### CSRF (Cross-Site Request Forgery)
+## CSRF (Cross-Site Request Forgery)
 
 CSRF, kurbanın tarayıcısını kullanarak, onun halihazırda oturum açmış olduğu bir web sitesinde isteği dışında işlemler (şifre değiştirme, para transferi vb.) yaptırma saldırısıdır.
 
-## Neden Mümkün?
+### Neden Mümkün?
 
 Tarayıcılar, bir siteye istek atarken o siteye ait cookie'leri otomatik olarak ekler. Sunucu, isteğin kaynağına (kullanıcı gerçekten butona mı bastı yoksa gizli bir script mi çalıştı?) bakmaz; sadece cookie geçerli mi diye bakar.
 
-## Saldırı Senaryosu
+### Saldırı Senaryosu
 
 - Kullanıcı banka.com'da oturum açar.
 
@@ -62,9 +62,9 @@ Tarayıcılar, bir siteye istek atarken o siteye ait cookie'leri otomatik olarak
 ```
 - Tarayıcı, banka.com cookie'lerini otomatik eklediği için işlem başarıyla gerçekleşir.
 
-### Savunma Mekanizmaları ve SameSite
+## Savunma Mekanizmaları ve SameSite
 
-## CSRF Token (Anti-CSRF)
+### CSRF Token (Anti-CSRF)
 
 En yaygın yöntemdir. Sunucu, her oturum veya her form için benzersiz, tahmin edilemez bir Token üretir ve bunu HTML içine (hidden input) gömer.
 
@@ -72,7 +72,7 @@ En yaygın yöntemdir. Sunucu, her oturum veya her form için benzersiz, tahmin 
 
  - Token içermeyen veya yanlış içeren istekler reddedilir.
 
-## SameSite Cookie Önlemi
+### SameSite Cookie Önlemi
 
 Google tarafından geliştirilen ve cookie'lerin hangi durumlarda (cross-site/same-site) gönderileceğini belirleyen bir niteliktir (attribute).
 
