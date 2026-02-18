@@ -18,28 +18,28 @@ HTTP (HyperText Transfer Protocol), modern internetin temel taşıdır. En önem
 
     Sunucu tarafından Set-Cookie header'ı ile tarayıcıya gönderilen küçük veri parçalarıdır. Tarayıcı bu veriyi yerel veri tabanında saklar ve ilgili domain'e yapılan sonraki tüm isteklerde otomatik olarak header'a ekler.
 
-  ## Session (Oturum) Yönetimi
+## Session (Oturum) Yönetimi
 
-    Session, sunucu tarafında kullanıcıya ait verilerin tutulduğu alandır. Yaygın tutulma yöntemleri:
+Session, sunucu tarafında kullanıcıya ait verilerin tutulduğu alandır. Yaygın tutulma yöntemleri:
 
-     - File System: /tmp gibi klasörlerde tutulur. Disk I/O (giriş/çıkış) işlemleri darboğaz (bottleneck) yaratabilir.
+- File System: /tmp gibi klasörlerde tutulur. Disk I/O (giriş/çıkış) işlemleri darboğaz (bottleneck) yaratabilir.
 
-     - Database: Ölçeklenebilirlik sağlar ancak her request'te DB sorgusu maliyetlidir.
+- Database: Ölçeklenebilirlik sağlar ancak her request'te DB sorgusu maliyetlidir.
 
-     - In-Memory (Redis/Memcached): En hızlı yöntemdir. Veri RAM üzerinde tutulur.
+- In-Memory (Redis/Memcached): En hızlı yöntemdir. Veri RAM üzerinde tutulur.
 
-     - Client-Side Session: Sunucu yükünü azaltmak için session verisi doğrudan cookie içine yazılır.
+- Client-Side Session: Sunucu yükünü azaltmak için session verisi doğrudan cookie içine yazılır.
   
   
-  ## Client-Side Session & Güvenlik
+## Client-Side Session & Güvenlik
 
-    Veri istemcide tutulduğu için kullanıcı bunu değiştirebilir. Bunu engellemek için:
+Veri istemcide tutulduğu için kullanıcı bunu değiştirebilir. Bunu engellemek için:
 
-     - HMAC Signature: Veri, sunucuda saklı bir Secret Key ile imzalanır.
+- HMAC Signature: Veri, sunucuda saklı bir Secret Key ile imzalanır.
 
-     - İşleyiş: Veri + Secret Key hashlenir. Eğer kullanıcı veriyi değiştirirse, hash tutmayacağı için sunucu isteği reddeder.
+- İşleyiş: Veri + Secret Key hashlenir. Eğer kullanıcı veriyi değiştirirse, hash tutmayacağı için sunucu isteği reddeder.
 
-     - Encoding: Veri genellikle okunabilirliği sağlamak için Base64 ile encode edilir (Bu bir şifreleme değildir!).
+- Encoding: Veri genellikle okunabilirliği sağlamak için Base64 ile encode edilir (Bu bir şifreleme değildir!).
 
 ### CSRF (Cross-Site Request Forgery)
 
@@ -51,16 +51,16 @@ Tarayıcılar, bir siteye istek atarken o siteye ait cookie'leri otomatik olarak
 
 ## Saldırı Senaryosu
 
-    - Kullanıcı banka.com'da oturum açar.
+- Kullanıcı banka.com'da oturum açar.
 
-    - Aynı tarayıcıda saldırganın hazırladığı kotu-site.com'a girer.
+- Aynı tarayıcıda saldırganın hazırladığı kotu-site.com'a girer.
 
-    - Kötü niyetli site arka planda şu isteği tetikler:
+- Kötü niyetli site arka planda şu isteği tetikler:
 
-    ```html
-    <img src="https://banka.com/transfer?to=hacker&amount=1000" style="display:none;">
-    ```
-    - Tarayıcı, banka.com cookie'lerini otomatik eklediği için işlem başarıyla gerçekleşir.
+```html
+<img src="https://banka.com/transfer?to=hacker&amount=1000" style="display:none;">
+```
+- Tarayıcı, banka.com cookie'lerini otomatik eklediği için işlem başarıyla gerçekleşir.
 
 ### Savunma Mekanizmaları ve SameSite
 
@@ -72,12 +72,12 @@ En yaygın yöntemdir. Sunucu, her oturum veya her form için benzersiz, tahmin 
 
  - Token içermeyen veya yanlış içeren istekler reddedilir.
 
-## SameSite Cookie Ölemi
+## SameSite Cookie Önlemi
 
-Google tarafından geliştirilen ve cookie'lerin hangi durumlarda gönderileceğini belirleyen bir attribute'tur.
+Google tarafından geliştirilen ve cookie'lerin hangi durumlarda (cross-site/same-site) gönderileceğini belirleyen bir niteliktir (attribute).
 
-  Strict   Cookie sadece "First-party" (aynı site) isteklerinde gönderilir. Dış linkten tıklayıp gelince bile cookie gitmez.
-
-  Lax      (Modern tarayıcılarda default) Dış sitelerden gelen "Güvenli" isteklerde (Sadece GET ve üst seviye navigasyon) cookie gönderilir.
-
-  None     Cookie her durumda gönderilir. Secure flag'i ile birlikte kullanılmalıdır.
+| Değer | Açıklama |
+| :--- | :--- |
+| **Strict** | Cookie sadece "First-party" (aynı site) isteklerinde gönderilir. Dış bir linkten tıklayıp siteye gelseniz bile cookie eklenmez. En güvenli moddur. |
+| **Lax** | Modern tarayıcılarda varsayılan (default) değerdir. Dış sitelerden gelen sadece "güvenli" isteklere (GET metodu ve üst seviye navigasyon) cookie eklenir. |
+| **None** | Cookie her durumda (üçüncü taraf isteklerde dahil) gönderilir. Ancak bu modun çalışması için mutlaka `Secure` flag'i ile birlikte kullanılmalıdır. |
