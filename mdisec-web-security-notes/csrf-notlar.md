@@ -14,9 +14,9 @@ HTTP (HyperText Transfer Protocol), modern internetin temel taşıdır. En önem
 
 ### Cookie ve Session Mekanizması
 
-  ## Cookie Nedir?
+## Cookie Nedir?
 
-    Sunucu tarafından Set-Cookie header'ı ile tarayıcıya gönderilen küçük veri parçalarıdır. Tarayıcı bu veriyi yerel veri tabanında saklar ve ilgili domain'e yapılan sonraki tüm isteklerde otomatik olarak header'a ekler.
+Sunucu tarafından Set-Cookie header'ı ile tarayıcıya gönderilen küçük veri parçalarıdır. Tarayıcı bu veriyi yerel veri tabanında saklar ve ilgili domain'e yapılan sonraki tüm isteklerde otomatik olarak header'a ekler.
 
 ## Session (Oturum) Yönetimi
 
