@@ -170,7 +170,7 @@
   - Örnek payload:
 
     ```
-    SCII(SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 1,1), 1, 1)) > 104
+    ASCII(SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 1,1), 1, 1)) > 104
     Eğer sonuç 104'den büyükse ASCII tablosundaki 104'den büyük olan numaraların aritmetik ortalamasını alıp aynı işlemi daha az HTTP request ile çözmüş oluyoruz.
     ```
  
